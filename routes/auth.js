@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/userModel");
 const CryptoJS = require("crypto-js");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 //REGISTER
 router.post("/register", async (req, res) => {
@@ -24,11 +24,11 @@ router.post("/register", async (req, res) => {
 
 //LOGIN
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res) =>  {
     try{
         const user = await User.findOne(
             {
-                userName: req.body.user_name
+                username: req.body.username
             }
         );
 
@@ -43,21 +43,25 @@ router.post('/login', async (req, res) => {
         const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
         const inputPassword = req.body.password;
+      
         
-        originalPassword != inputPassword && 
-            res.status(401).json("Wrong Password");
+        originalPassword !== inputPassword && 
+            res.status(401).json("Wrong Password is given");
      
-        // const accessToken = jwt.sign(
-        // {
-        //     id: user._id,
-        //     isAdmin: user.isAdmin,
-        // },
-        // process.env.JWT_SEC,
-        //     {expiresIn:"3d"}
-        // );
+        const accessToken = jwt.sign(
+        {
+            id: user._id,
+            isAdmin: user.isAdmin,
+        },
+        process.env.JWT_SEC,
+            {expiresIn:"3d"}
+        );
   
-        // const { password, ...others } = user._doc;  
-        // res.status(200).json({...others});
+        const { password, ...others } = user._doc;  
+        res.status(200).json({...others , accessToken});
+
+
+        
 
     }catch(err){
         res.status(500).json(err);
