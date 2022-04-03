@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
+const main = require("./routes/main");
 
 dotenv.config()
  
@@ -19,6 +20,7 @@ const { model } = require("mongoose");
 
 app.use(express.json())
 //for json req from frdend
+app.use('/', main);
 app.use("/api/v1/auth", authRoute);
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/product', productRoute);
