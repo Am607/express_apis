@@ -18,11 +18,22 @@ let collectionRef = db.collection('attendance');
        var body = req.body;
        console.log(body)
 
-       const newData ={ ...body, date: new Date()}
+       var today = new Date();
+       var dd = String(today.getDate()).padStart(2, '0');
+       var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+       var yyyy = today.getFullYear();
+       
+       today = mm + '/' + dd + '/' + yyyy;
+       console.log(today)
 
-       collectionRef.add(newData).then(documentReference => {
-             console.log('Data Succesfuly Added')
-      });
+
+      
+    
+       const newData ={ ...body, date: today}
+
+      //  collectionRef.add(newData).then(documentReference => {
+      //        console.log('Data Succesfuly Added')
+      // });
 
     res.send(body);
   })
