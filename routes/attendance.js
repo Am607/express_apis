@@ -3,7 +3,7 @@ const router = require('express').Router()
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require("/home/akbar/Desktop/study/nodejsstudy/node/env/eclassroom-ec4e5-firebase-adminsdk-jn6yv-84d579f678.json");
+var serviceAccount = require("../env/eclassroom-ec4e5-firebase-adminsdk-jn6yv-84d579f678.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -31,9 +31,9 @@ let collectionRef = db.collection('attendance');
     
        const newData ={ ...body, date: today}
 
-      //  collectionRef.add(newData).then(documentReference => {
-      //        console.log('Data Succesfuly Added')
-      // });
+       collectionRef.add(newData).then(documentReference => {
+             console.log('Data Succesfuly Added')
+      });
 
     res.send(body);
   })
